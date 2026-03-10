@@ -3,6 +3,8 @@
     --pink-main: #ff9fc7;
     --pink-deep: #ff74b3;
     --red-main: #ff4f7f;
+    --tile-front: #ffc1da;
+    --tile-back: #fff4fa;
 }
 
 * {
@@ -20,28 +22,22 @@ body {
     animation: softShift 9s ease-in-out infinite;
 }
 
-.screen,
-.result {
+.screen {
     position: fixed;
     inset: 0;
     display: grid;
     place-content: center;
     gap: 1rem;
     text-align: center;
-    z-index: 5;
-    background: rgba(255, 255, 255, 0.35);
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(4px);
 }
 
-h1 {
-    margin: 0;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-}
-
+h1,
+h2,
 p {
     margin: 0;
-    font-size: clamp(1rem, 2vw, 1.15rem);
-    padding: 0 1rem;
 }
 
 .btn {
@@ -56,27 +52,91 @@ p {
     box-shadow: 0 8px 20px rgba(255, 79, 127, 0.3);
 }
 
+.btn-skip {
+    margin-top: 0.55rem;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    opacity: 0.92;
+}
+
 .hud {
     position: fixed;
     top: 16px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 6;
+    z-index: 15;
     text-align: center;
-    background: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 14px;
     padding: 0.8rem 1.1rem;
     box-shadow: 0 8px 20px rgba(255, 116, 179, 0.2);
 }
 
-.hud h2 {
-    margin: 0;
-    font-size: clamp(1rem, 2.2vw, 1.25rem);
-}
-
 .score {
     margin-top: 0.35rem;
     font-weight: 700;
+}
+
+
+
+body.no-bg-hearts #bg-hearts-layer {
+    display: none;
+}
+
+body.final-celebration .screen#result-screen {
+    background: linear-gradient(135deg, #ffffff, #ffdbe9, #fff3f8);
+    backdrop-filter: none;
+}
+
+body.final-celebration #bg-hearts-layer {
+    display: none;
+}
+
+#final-confetti-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 25;
+    display: none;
+}
+
+body.final-celebration #final-confetti-layer {
+    display: block;
+}
+
+.confetti-heart {
+    position: absolute;
+    top: -10vh;
+    user-select: none;
+    opacity: 1;
+    animation: confettiFall linear forwards;
+    filter: drop-shadow(0 0 10px rgba(255, 116, 179, 0.55));
+}
+
+#bg-hearts-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.bg-heart {
+    position: absolute;
+    top: -12vh;
+    user-select: none;
+    color: rgba(255, 102, 171, 0.95);
+    text-shadow: 0 0 10px rgba(255, 116, 179, 0.35);
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.game-area {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    display: grid;
+    place-items: center;
 }
 
 #falling-layer {
@@ -96,6 +156,102 @@ p {
     text-shadow: 0 0 10px rgba(255, 116, 179, 0.45);
 }
 
+.grid {
+    display: grid;
+    gap: 10px;
+}
+
+.pairs-grid {
+    grid-template-columns: repeat(6, minmax(44px, 62px));
+}
+
+.sequence-grid {
+    grid-template-columns: repeat(5, minmax(54px, 72px));
+}
+
+.card,
+.seq-tile {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    background: var(--tile-front);
+    color: transparent;
+    transform-style: preserve-3d;
+    transition: transform 0.35s ease, background 0.35s ease, color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(255, 116, 179, 0.25);
+}
+
+.card.flipped,
+.card.matched,
+.seq-tile.revealed {
+    background: var(--tile-back);
+    color: #9f2f63;
+    transform: rotateY(180deg);
+}
+
+.card.matched {
+    box-shadow: 0 0 0 2px #ff7daf inset;
+}
+
+.seq-tile.active {
+    transform: translateY(-8px) scale(1.04);
+    background: #ff8fbe;
+    color: #fff;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 8px 18px rgba(255, 116, 179, 0.45);
+}
+
+.maze-wrap {
+    display: grid;
+    gap: 14px;
+    justify-items: center;
+    margin-top: 80px;
+}
+
+.maze-grid {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(30px, 48px));
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(255, 116, 179, 0.22);
+}
+
+.maze-cell {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-size: clamp(1rem, 1.8vw, 1.35rem);
+    background: #ffd3e5;
+}
+
+.maze-cell.wall {
+    background: #f7a5c8;
+}
+
+.maze-cell.player {
+    outline: 2px solid #ff4f7f;
+    background: #fff2f8;
+}
+
+.maze-controls {
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+}
+
+.maze-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 0.45rem 0.7rem;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 116, 179, 0.28);
+}
+
 .hidden {
     display: none;
 }
@@ -112,4 +268,10 @@ p {
     50% { transform: translateY(50vh) translateX(-1.8vw) rotate(-12deg); }
     75% { transform: translateY(75vh) translateX(1.2vw) rotate(14deg); }
     100% { transform: translateY(115vh) translateX(-1.2vw) rotate(-16deg); }
+}
+
+
+@keyframes confettiFall {
+    0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) translateX(2vw) rotate(220deg); opacity: 1; }
 }
