@@ -1,0 +1,91 @@
+:root {
+    --pink-light: #ffd8e8;
+    --pink-main: #ff9fc7;
+    --pink-deep: #ff74b3;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    color: #9f2f63;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffffff, var(--pink-light), #ffffff, var(--pink-main));
+    background-size: 300% 300%;
+    animation: softShift 10s ease-in-out infinite;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.55);
+    padding: 2rem 2.5rem;
+    border-radius: 1.25rem;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 10px 30px rgba(255, 116, 179, 0.2);
+}
+
+h1 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+p {
+    margin: 0;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+#hearts-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.heart {
+    position: absolute;
+    top: -10vh;
+    color: var(--pink-deep);
+    opacity: 0.75;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    text-shadow: 0 0 14px rgba(255, 116, 179, 0.45);
+}
+
+@keyframes softShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) translateX(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(25vh) translateX(1.5vw) rotate(20deg);
+    }
+    50% {
+        transform: translateY(50vh) translateX(-1.5vw) rotate(-20deg);
+    }
+    75% {
+        transform: translateY(75vh) translateX(1vw) rotate(15deg);
+    }
+    100% {
+        transform: translateY(110vh) translateX(-1vw) rotate(-15deg);
+    }
+}
