@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>For My Love</title>
+    <title>For My Love — Игра</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<main class="content">
+<main class="screen" id="welcome-screen">
     <h1>Для тебя 💗</h1>
-    <p>Нежный розовый дождь из сердечек только для тебя.</p>
+    <p id="welcome-text">Нажми кнопку и начнётся мини-игра с сердечками и милыми смайликами.</p>
+    <button id="start-btn" class="btn">Начать игру</button>
 </main>
 
-<div id="hearts-layer" aria-hidden="true"></div>
+<section class="hud hidden" id="hud" aria-live="polite">
+    <h2>1 игра, поймай 10 "❤️"</h2>
+    <div class="score">Поймано: <span id="score">0</span>/10</div>
+</section>
+
+<section class="result hidden" id="result">
+    <h2>Молодец! ✨</h2>
+    <button id="next-btn" class="btn">Следующая игра</button>
+</section>
+
+<div id="falling-layer" aria-hidden="true"></div>
 
 <script src="script.js"></script>
 </body>
